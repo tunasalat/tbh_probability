@@ -44,7 +44,6 @@ def improve_first_strategy(pool, boosts):
     while (boosts > 0 and (Q - 1  in pool or 5 in pool)) or  6 in pool:
         if count_successes(pool)  >= 2:
             break
-        reroll_sixes(pool)
         if Q - 1 in pool and boosts > 0:
             boosts -= 1
             pool.remove(Q - 1)
@@ -53,6 +52,8 @@ def improve_first_strategy(pool, boosts):
             boosts -= 1
             pool.remove(5)
             pool.append(6)
+        else:
+            reroll_sixes(pool)
     return pool
 
 def bear_boson_strategy(pool, boosts, reserve):
