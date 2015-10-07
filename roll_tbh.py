@@ -77,6 +77,29 @@ def bear_boson_strategy(pool, boosts, reserve):
             break
     return pool
 
+def intelligent_strategy(pool, boosts):
+    while boosts > 0 and (Q - 1  in pool or 5 in pool) or  6 in pool:
+        if count_successes(pool) + min(boosts, (sum(i == Q - 1 for i in pool))) >= 2:
+            while Q - 1  in pool and boosts > 0:
+                boosts -= 1
+                pool.remove(Q - 1)
+                pool.append(Q)
+            break
+        elif 6 in pool:
+            pool.remove(6)
+            pool.append(random.randint(1,6))
+            pool.append(random.randint(1,6))
+        elif 5 in pool and boosts > 0:
+            boosts -= 1
+            pool.remove(5)
+            pool.append(random.randint(1,6))
+            pool.append(random.randint(1,6))
+        else:
+            break
+    return pool
+
+
+
 
 
 def count_successes(pool):
@@ -256,3 +279,30 @@ for i in range(1, 100000):
     if count_successes(roll)  >= 2:
         probability += 1
 print 'Bear boson strategy with 3 boosts success probability 2 reserve boost: ' + str(probability / 100000.0 * 100.0) + '%'
+
+### Intelligent strategy with 1 boost
+probability = 0.0
+for i in range(1, 100000):
+    roll = roll_3d6()
+    intelligent_strategy(roll, 1)
+    if count_successes(roll)  >= 2:
+        probability += 1
+print 'Intelligent strategy with 1 boost success probability: ' + str(probability / 100000.0 * 100.0) + '%'
+
+### Intelligent strategy with 2 boosts
+probability = 0.0
+for i in range(1, 100000):
+    roll = roll_3d6()
+    intelligent_strategy(roll, 2)
+    if count_successes(roll)  >= 2:
+        probability += 1
+print 'Intelligent boson strategy with 2 boosts success probability: ' + str(probability / 100000.0 * 100.0) + '%'
+
+### Intelligent strategy with 3 boosts
+probability = 0.0
+for i in range(1, 100000):
+    roll = roll_3d6()
+    intelligent_strategy(roll, 3)
+    if count_successes(roll)  >= 2:
+        probability += 1
+print 'Intelligent strategy with 3 boosts success probability: ' + str(probability / 100000.0 * 100.0) + '%'
